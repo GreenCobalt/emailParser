@@ -1,0 +1,32 @@
+{
+  "name": "emailparser",
+  "version": "0.0.2",
+  "description": "A simple email parser",
+  "main": "emailParser.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GreenCobalt/emailParser.git"
+  },
+  "keywords": [
+    "email",
+    "imap",
+    "smtp"
+  ],
+  "author": "GreenCobalt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GreenCobalt/emailParser/issues"
+  },
+  "homepage": "https://github.com/GreenCobalt/emailParser#readme",
+  "dependencies": {
+    "encoding": "^0.1.13",
+    "quoted-printable": "^1.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "rewire": "^6.0.0"
+  }
+}
