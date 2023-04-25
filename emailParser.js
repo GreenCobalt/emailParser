@@ -53,14 +53,14 @@ function parseEmail(body) {
                 if (part.split("Content-Transfer-Encoding: ").length > 1) encoding = part.split("Content-Transfer-Encoding: ")[1].split("\n")[0];
 
                 let partClass = cType.type.split("/");
-                if ((partClass[0] == "image" || partClass[0] == "text") && Object.keys(cType).includes("name")) {
+                if ((partClass[0] == "image" || partClass[0] == "text" || partClass[0] == "image" || partClass[0] == "application" || partClass[0] == "video") && Object.keys(cType).includes("name")) {
                     email.attachments.push({
                         type: cType.type,
                         encoding: encoding,
                         name: cType.name.replaceAll('"', ''),
                         content: part.split("\n\n")[1].replaceAll("\n", "")
                     });
-                } else if (partClass[0] == "text" || partClass[0] == "image" || partClass[0] == "application" || partClass[0] == "video") {
+                } else if (partClass[0] == "text") {
                     let emContent = part.substring(part.indexOf('\n\n') + 1);
                     if (partClass[1] == "html") emContent = emContent.replaceAll("\n", "");
                     email.content.push({
