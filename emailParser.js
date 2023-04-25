@@ -1,5 +1,4 @@
-const quotedPrintable = require('quoted-printable');
-const utf8 = require('utf8');
+const mimelib = require("mimelib");
 
 let emailRgx = /[a-zA-Z0-9._%+-]*@[a-zA-Z0-9._%+-]*/;
 let wantedHeaders = ["To", "From", "Date", "Subject"];
@@ -8,7 +7,7 @@ function decode(content, encoding = "8bit") {
     //7bit (ASCII) and 8bit map to UTF8 with no cnanges
 
     if (encoding.toLowerCase() == "quoted-printable" || content.includes("=20"))
-        content = utf8.decode(quotedPrintable.decode(content));
+        content = mimelib.decodeQuotedPrintable(content);
     if (encoding.toLowerCase() == "base64") content =
         Buffer.from(content, 'base64').toString("utf8");
 
@@ -68,7 +67,7 @@ function parseEmail(body) {
                         type: cType.type,
                         encoding: encoding,
                         content: emContent.trim(),
-                        decodedContent: decode(emContent, encoding)
+                        decodedContent: decode(emContent.trim(), encoding)
                     });
                 } else {
                     log.err("Unknown email MIME type", partClass, "encountered while parsing email from", email.headers.from.parsed);

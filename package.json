@@ -1,10 +1,10 @@
 {
   "name": "emailparser",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A simple email parser",
   "main": "emailParser.js",
   "scripts": {
-    "test": "jest"
+    "test": ""
   },
   "repository": {
     "type": "git",
@@ -23,10 +23,6 @@
   "homepage": "https://github.com/GreenCobalt/emailParser#readme",
   "dependencies": {
     "encoding": "^0.1.13",
-    "quoted-printable": "^1.0.1"
-  },
-  "devDependencies": {
-    "jest": "^29.5.0",
-    "rewire": "^6.0.0"
+    "mimelib": "^0.3.1"
   }
 }
