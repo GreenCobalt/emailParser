@@ -60,7 +60,7 @@ function parseEmail(body) {
                         name: cType.name.replaceAll('"', ''),
                         content: part.split("\n\n")[1].replaceAll("\n", "")
                     });
-                } else if (partClass[0] == "text") {
+                } else if (partClass[0] == "text" || partClass[0] == "image" || partClass[0] == "application" || partClass[0] == "video") {
                     let emContent = part.substring(part.indexOf('\n\n') + 1);
                     if (partClass[1] == "html") emContent = emContent.replaceAll("\n", "");
                     email.content.push({
@@ -69,8 +69,6 @@ function parseEmail(body) {
                         content: emContent.trim(),
                         decodedContent: decode(emContent.trim(), encoding)
                     });
-                } else {
-                    log.err("Unknown email MIME type", partClass, "encountered while parsing email from", email.headers.from.parsed);
                 }
             }
         });
