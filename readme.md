@@ -19,7 +19,7 @@ console.log(parsedEmail);
     "attachments": [],
     "content": [
         { ... }
-    },
+    ],
     "headers": {
         "date": 0,
         "from": { "parsed": "test1@example.com", "raw": "Test1 <test1@example.com>" },

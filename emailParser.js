@@ -28,11 +28,12 @@ function parseSection(section, email) {
             parseSection(getTextInBoundary(part, getBoundaryFromText(part)), email);
         } else {
             let body = part.split("\n\n")[1].replaceAll("\n", "").trim();
-            let contentType = Object.fromEntries(("type=" + part.split("Content-Type: ")[1]).split("\n")[0].split("; ").map((x) => x.split("=")));
+            let contentType = Object.fromEntries(("type=" + part.split("Content-Type: ")[1]).replaceAll(";\n", ";").split("\n")[0].replaceAll("\t", "").split(";").map((x) => x.split("=")));
 
             let encoding = (part.split("Content-Transfer-Encoding: ").length > 1 ? part.split("Content-Transfer-Encoding: ")[1].split("\n")[0] : "8bit");
             let typeSplit = contentType.type.split("/");
-            
+            typeSplit[1] = typeSplit[1].replaceAll(";", "");
+
             if ((typeSplit[0] == "image" || typeSplit[0] == "text" || typeSplit[0] == "image" || typeSplit[0] == "application" || typeSplit[0] == "video") && Object.keys(contentType).includes("name")) {
                 let content = decode(body, encoding);
                 email.attachments.push({
@@ -49,7 +50,7 @@ function parseSection(section, email) {
                     decodedContent: decode(body, encoding).toString("utf8")
                 });
             }
-            
+
         }
     });
     return email;
