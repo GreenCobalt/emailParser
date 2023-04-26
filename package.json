@@ -1,6 +1,6 @@
 {
   "name": "emailparser",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A simple email parser",
   "main": "emailParser.js",
   "scripts": {
@@ -13,7 +13,11 @@
   "keywords": [
     "email",
     "imap",
-    "smtp"
+    "smtp",
+    "mime",
+    "parse",
+    "decode",
+    "quoted printable"
   ],
   "author": "GreenCobalt",
   "license": "ISC",
