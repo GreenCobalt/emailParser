@@ -70,7 +70,7 @@ function parseEmail(body) {
     email.headers["date"] = Date.parse(body.split("\nDate: ")[1].split("\n")[0]);
     email.headers["subject"] = body.split("\nSubject: ")[1].split("\n")[0];
 
-    return parseSection(getTextInBoundary(body, getBoundaryFromText(body)), email);
+    return parseSection([body], email);
 }
 
 module.exports = { parseEmail }
