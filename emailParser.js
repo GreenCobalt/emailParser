@@ -49,7 +49,8 @@ function parseSection(section, email) {
         if (partType[0].split("/")[0] == "multipart") {
             parseSection(getTextInBoundary(part, getBoundaryFromText(part)), email);
         } else {
-            let body = part.split("\n\n")[1].replaceAll("\n", "").trim();
+            let body = part.slice(part.indexOf('\n\n') + 1).replaceAll("=\n", "").trim();
+
             let contentType = Object.fromEntries(("type=" + part.split("Content-Type: ")[1]).replaceAll(";\n", ";").split("\n")[0].replaceAll("\t", "").split(";").map((x) => x.split("=").map((y) => y.trim().replaceAll('"', ""))));
 
             let encoding = (part.split("Content-Transfer-Encoding: ").length > 1 ? part.split("Content-Transfer-Encoding: ")[1].split("\n")[0] : "8bit");
