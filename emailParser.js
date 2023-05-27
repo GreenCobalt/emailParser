@@ -93,7 +93,7 @@ function parseEmail(body) {
     email.headers["to"] = body.split("\nTo: ")[1].replaceAll("\n     ", "").split("\n")[0].match(/(?:[^(,)"]+|"[^"]*")+/g).map((x) => x.trim()).map((x) => { return { raw: x, parsed: x.match(emailRgx)[0] } });
     email.headers["from"] = { raw: body.split("\nFrom: ")[1].split("\n")[0], parsed: body.split("\nFrom: ")[1].split("\n")[0].match(emailRgx)[0] };
     email.headers["date"] = Date.parse(body.split("\nDate: ")[1].split("\n")[0]);
-    email.headers["subject"] = body.split("\nSubject: ")[1].split("\n")[0];
+    email.headers["subject"] = body.includes("\nSubject: ") ? body.split("\nSubject: ")[1].split("\n")[0] : null;
 
     return parseSection([body], email);
 }
