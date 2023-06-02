@@ -1,6 +1,6 @@
 # nodejs Email Parser
 
-A simple email parser for nodejs applications.
+A simple MIME email parser for nodejs applications.
 
 Takes raw emails and parses out text and attachments.
 
