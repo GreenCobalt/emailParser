@@ -36,6 +36,10 @@ function decode(content, encoding, charset) {
     return convert(content, "utf8", charset);
 }
 
+function getHeader(name, text) {
+    if (text.split(name).length == 1) return false;
+    return text.split("\n" + name + ": ")[1].replace(/\n\s+/g, "").split("\n")[0].trim();
+}
 function getTextInBoundary(text, boundary) {
     return text.split("--" + boundary + "--")[0].split("--" + boundary + "\n").slice(1);
 }
@@ -90,10 +94,10 @@ function parseEmail(body) {
     });
 
     let email = { headers: {}, content: [], attachments: [] };
-    email.headers["to"] = body.split("\nTo: ")[1].replaceAll("\n     ", "").split("\n")[0].match(/(?:[^(,)"]+|"[^"]*")+/g).map((x) => x.trim()).map((x) => { return { raw: x, parsed: x.match(emailRgx)[0] } });
-    email.headers["from"] = { raw: body.split("\nFrom: ")[1].split("\n")[0], parsed: body.split("\nFrom: ")[1].split("\n")[0].match(emailRgx)[0] };
-    email.headers["date"] = Date.parse(body.split("\nDate: ")[1].split("\n")[0]);
-    email.headers["subject"] = body.split("\nSubject: ")[1].split("\n")[0];
+    email.headers["to"] = getHeader("To", body).match(/(?:[^,"]+|"[^"]*")+/g /* splits by comma if comma not in quotes */).map(x => { return { raw: x.trim(), parsed: x.trim().match(emailRgx)[0] } });
+    email.headers["from"] = { raw: getHeader("From", body), parsed: getHeader("From", body).match(emailRgx)[0] };
+    email.headers["date"] = Date.parse(getHeader("Date", body));
+    email.headers["subject"] = getHeader("Subject", body);
 
     return parseSection([body], email);
 }

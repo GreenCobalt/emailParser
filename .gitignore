@@ -1,2 +1,3 @@
 node_modules/
 emailParser.test.js
+test-emails/
