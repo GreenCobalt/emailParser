@@ -41,7 +41,7 @@ function parseListOfEmails(text) {
 }
 function getHeaders(text) {
     let headers = {};
-    Array.from(text.split("\n\n")[0].matchAll(/\n?(?<n>[^:]*): (?<c>([^\n]|\n\s)*)/gm)).forEach((match) => {
+    Array.from(text.split("\n\n")[0].matchAll(/\n?(?<n>[^:]*): ?(?<c>([^\n]|\n\s)*)/gm)).forEach((match) => {
         if (Object.keys(headers).includes(match.groups.n)) {
             if (!Array.isArray(headers[match.groups.n])) headers[match.groups.n] = [headers[match.groups.n]];
             headers[match.groups.n].push(match.groups.c);
@@ -61,6 +61,7 @@ function getBoundaryFromText(text) {
 function parseSection(section, email) {
     section.forEach((part) => {
         let partHeaders = getHeaders(part);
+        if (!("Content-Type" in partHeaders)) return email;
         let partType = partHeaders["Content-Type"].split("; ");
 
         if (partType[0].split("/")[0] == "multipart") {

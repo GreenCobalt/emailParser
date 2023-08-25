@@ -1,6 +1,6 @@
 {
   "name": "emailparser",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "A simple email parser",
   "main": "emailParser.js",
   "scripts": {
