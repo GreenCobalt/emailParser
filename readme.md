@@ -1,10 +1,11 @@
 # nodejs Email Parser
+## BREAKING CHANGES - see changes section
 
 A simple MIME email parser for nodejs applications.
 
 Takes raw emails and parses out text and attachments.
 
-# Usage:
+# Usage
 
 ```
 const emailParser = require('emailparser');
@@ -29,3 +30,9 @@ console.log(parsedEmail);
 }
 */
 ```
+
+# Changes
+## 0.0.17 - BREAKING
+parseEmail(body) returned Object:
+- `headers` field changed to include all raw email headers, no parsing
+- previous headers now appear in `meta` field - has specific parsed headers: to, from, etc
