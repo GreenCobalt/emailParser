@@ -1,4 +1,5 @@
 const convert = require("encoding").convert;
+const rfc2047 = require('rfc2047');
 
 let emailRgx = /[a-zA-Z0-9._%+-]*@[a-zA-Z0-9._%+-]*/;
 
@@ -43,10 +44,10 @@ function getHeaders(text) {
     let headers = {};
     Array.from(text.split("\n\n")[0].matchAll(/\n?(?<n>[^:]*): ?(?<c>([^\n]|\n\s)*)/gm)).forEach((match) => {
         if (Object.keys(headers).includes(match.groups.n)) {
-            if (!Array.isArray(headers[match.groups.n])) headers[match.groups.n] = [headers[match.groups.n]];
-            headers[match.groups.n].push(match.groups.c);
+            if (!Array.isArray(headers[match.groups.n])) headers[match.groups.n] = [rfc2047.decode(headers[match.groups.n])];
+            headers[match.groups.n].push(rfc2047.decode(match.groups.c));
         } else {
-            headers[match.groups.n] = match.groups.c.replaceAll(/\n\s+/g, "");
+            headers[match.groups.n] = rfc2047.decode(match.groups.c.replaceAll(/\n\s+/g, ""));
         }
     });
     return headers;
@@ -72,7 +73,7 @@ function parseSection(section, email) {
             let encoding = (!partHeaders["Content-Transfer-Encoding"] ? "8bit" : partHeaders["Content-Transfer-Encoding"]);
             
             let typeSplit = contentType.type.split("/");
-            typeSplit[1] = typeSplit[1].replaceAll(";", "");
+            typeSplit[typeSplit.length - 1] = typeSplit[typeSplit.length - 1].replaceAll(";", "");
 
             if ((typeSplit[0] == "image" || typeSplit[0] == "text" || typeSplit[0] == "image" || typeSplit[0] == "application" || typeSplit[0] == "video") && Object.keys(contentType).includes("name")) {
                 let content = decode(body, encoding, contentType.charset);

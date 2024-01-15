@@ -1,6 +1,6 @@
 {
   "name": "emailparser",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "A simple email parser",
   "main": "emailParser.js",
   "scripts": {
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/GreenCobalt/emailParser#readme",
   "dependencies": {
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "rfc2047": "^4.0.1"
   }
 }
